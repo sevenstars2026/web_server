@@ -1,4 +1,5 @@
 #include "Connection.h"
+#include "ThreadPool.h"
 
 #include <arpa/inet.h>
 #include <cstring>
@@ -36,7 +37,11 @@ int main() {
     }
     std::cout << "[step1] listening for connections...\n";
 
-    // ========== 第四步：循环等待连接 ==========
+    // ========== 第四步：创建线程池 ==========
+    web::ThreadPool pool(8);  // 创建 8 个工作线程
+    std::cout << "[step2] thread pool created\n";
+
+    // ========== 第五步：循环等待连接 ==========
     while (true) {
         sockaddr_in peer{};
         socklen_t peerLen = sizeof(peer);
@@ -51,14 +56,14 @@ int main() {
         ::inet_ntop(AF_INET, &peer.sin_addr, clientIp, INET_ADDRSTRLEN);
         uint16_t clientPort = ntohs(peer.sin_port);
 
-        std::cout << "[step1] accepted connection from " << clientIp << ":" << clientPort << "\n";
+        std::cout << "[step2] accepted connection from " << clientIp << ":" << clientPort << "\n";
 
-        // 创建新线程处理这个连接
-        std::thread([connfd, clientIp, clientPort]() {
+        // 提交任务给线程池
+        pool.submit([connfd, clientIp, clientPort]() {
             web::handleConnection(connfd, clientIp, clientPort);
-        }).detach();
+        });
 
-        std::cout << "[step1] main thread back to accept...\n";
+        std::cout << "[step2] main thread back to accept...\n";
     }
 
     ::close(listenFd);

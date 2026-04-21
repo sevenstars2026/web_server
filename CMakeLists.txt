@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(web_server
         main.cpp
         src/Connection.cpp
+        src/ThreadPool.cpp
 )
 
 target_include_directories(web_server PRIVATE src)

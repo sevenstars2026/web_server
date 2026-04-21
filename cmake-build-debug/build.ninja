@@ -65,6 +65,14 @@ build CMakeFiles/web_server.dir/src/Connection.cpp.o: CXX_COMPILER__web_server_u
   OBJECT_DIR = CMakeFiles/web_server.dir
   OBJECT_FILE_DIR = CMakeFiles/web_server.dir/src
 
+build CMakeFiles/web_server.dir/src/ThreadPool.cpp.o: CXX_COMPILER__web_server_unscanned_Debug /home/sevenstars/CLionProjects/web_server/src/ThreadPool.cpp || cmake_object_order_depends_target_web_server
+  CONFIG = Debug
+  DEP_FILE = CMakeFiles/web_server.dir/src/ThreadPool.cpp.o.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -I/home/sevenstars/CLionProjects/web_server/src
+  OBJECT_DIR = CMakeFiles/web_server.dir
+  OBJECT_FILE_DIR = CMakeFiles/web_server.dir/src
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target web_server
@@ -73,7 +81,7 @@ build CMakeFiles/web_server.dir/src/Connection.cpp.o: CXX_COMPILER__web_server_u
 #############################################
 # Link the executable web_server
 
-build web_server: CXX_EXECUTABLE_LINKER__web_server_Debug CMakeFiles/web_server.dir/main.cpp.o CMakeFiles/web_server.dir/src/Connection.cpp.o
+build web_server: CXX_EXECUTABLE_LINKER__web_server_Debug CMakeFiles/web_server.dir/main.cpp.o CMakeFiles/web_server.dir/src/Connection.cpp.o CMakeFiles/web_server.dir/src/ThreadPool.cpp.o
   CONFIG = Debug
   DEP_FILE = CMakeFiles/web_server.dir/link.d
   FLAGS = -g
