@@ -4,7 +4,7 @@
 namespace web {
 
 ThreadPool::ThreadPool(size_t numThreads) : numThreads_(numThreads) {
-    // 创建 numThreads 个工作线程
+    // 创建 numThreads个工作线程
     for (size_t i = 0; i < numThreads_; ++i) {
         // 每个工作线程运行 workerLoop()
         workers_.emplace_back([this] { this->workerLoop(); });
