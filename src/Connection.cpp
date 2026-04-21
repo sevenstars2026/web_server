@@ -1,47 +1,69 @@
 #include "Connection.h"
-
 #include <iostream>
-#include <thread>
 #include <unistd.h>
+#include <fcntl.h>
+#include <algorithm>
+#include <string>
 
 namespace web {
 
-void handleConnection(int connfd, const char* clientIp, uint16_t clientPort) {
-    std::cout << "[step1] thread " << std::this_thread::get_id() << " handling connection from "
-              << clientIp << ":" << clientPort << "\n";
-
-    char buf[1024];
-    while (true) {
-        // 阻塞读：等待这个客户端发来数据
-        const ssize_t n = ::read(connfd, buf, sizeof(buf));
-        if (n < 0) {
-            std::cerr << "[step1] read error\n";
-            break;
-        }
-        if (n == 0) {
-            // 客户端关闭连接
-            std::cout << "[step1] client " << clientIp << ":" << clientPort << " closed\n";
-            break;
-        }
-
-        // 收到 n 个字节
-        std::cout << "[step1] received " << n << " bytes from " << clientIp << ": ";
-        for (int i = 0; i < n; ++i) {
-            std::cout << buf[i];
-        }
-        std::cout << "\n";
-
-        // 原样回复给客户端
-        if (::write(connfd, buf, n) < 0) {
-            std::cerr << "[step1] write error\n";
-            break;
-        }
-        std::cout << "[step1] sent " << n << " bytes back to " << clientIp << "\n";
+bool handleRead(Connection& conn) {
+    char buf[4096];
+    ssize_t n = ::read(conn.fd, buf, sizeof(buf));
+    
+    if (n < 0) {
+        std::cerr << "[handleRead] read error from " << conn.clientIp << ":" << conn.clientPort << "\n";
+        return false;
+    }
+    if (n == 0) {
+        // 客户端关闭连接
+        std::cout << "[handleRead] client " << conn.clientIp << ":" << conn.clientPort << " closed\n";
+        return false;
     }
 
-    // 关闭这个连接
-    ::close(connfd);
-    std::cout << "[step1] connection closed, thread " << std::this_thread::get_id() << " exit\n";
+    // 数据放入读缓冲区
+    conn.readBuffer.insert(conn.readBuffer.end(), buf, buf + n);
+    std::cout << "[handleRead] received " << n << " bytes from " << conn.clientIp << "\n";
+
+    // 简单协议：一条消息一行（\n 结尾）
+    // 处理所有完整的行
+    while (true) {
+        auto it = std::find(conn.readBuffer.begin(), conn.readBuffer.end(), '\n');
+        if (it == conn.readBuffer.end()) {
+            break;  // 没有完整的消息
+        }
+
+        // 提取一条消息
+        std::string message(conn.readBuffer.begin(), it);
+        conn.readBuffer.erase(conn.readBuffer.begin(), it + 1);
+
+        std::cout << "[handleRead] message: " << message << "\n";
+
+        // 回复：echo 前面加上 "ECHO: "
+        std::string reply = "ECHO: " + message + "\n";
+        conn.writeBuffer.insert(conn.writeBuffer.end(), reply.begin(), reply.end());
+    }
+
+    return true;
+}
+
+bool handleWrite(Connection& conn) {
+    if (conn.writeBuffer.empty()) {
+        return true;  // 没有数据要写
+    }
+
+    ssize_t n = ::write(conn.fd, conn.writeBuffer.data(), conn.writeBuffer.size());
+    
+    if (n < 0) {
+        std::cerr << "[handleWrite] write error to " << conn.clientIp << ":" << conn.clientPort << "\n";
+        return false;
+    }
+
+    // 移除已发送的数据
+    conn.writeBuffer.erase(conn.writeBuffer.begin(), conn.writeBuffer.begin() + n);
+    std::cout << "[handleWrite] sent " << n << " bytes to " << conn.clientIp << "\n";
+
+    return true;
 }
 
 }  // namespace web

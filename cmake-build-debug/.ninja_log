@@ -1,7 +1,14 @@
 # ninja log v6
-1366	1457	1776756798295129478	web_server	86908b3840212f8
-1	1313	1776756785463063377	CMakeFiles/web_server.dir/main.cpp.o	b843dbfbf374c160
-1	36	1776756805168699198	build.ninja	415130fd5b293491
-1	42	1776756805167699115	/home/sevenstars/CLionProjects/web_server/cmake-build-debug/cmake_install.cmake	64d8c17965f2980e
-1	541	1776744265829846053	CMakeFiles/web_server.dir/src/Connection.cpp.o	a9563878765b2bf9
 2	1366	1776756796931016304	CMakeFiles/web_server.dir/src/ThreadPool.cpp.o	c8e4e7982acf228a
+1	541	1776744265829846053	CMakeFiles/web_server.dir/src/Connection.cpp.o	a9563878765b2bf9
+1	42	1776761451722933350	/home/sevenstars/CLionProjects/web_server/cmake-build-debug/cmake_install.cmake	64d8c17965f2980e
+1	36	1776761451722933350	build.ninja	415130fd5b293491
+1	1313	1776756785463063377	CMakeFiles/web_server.dir/main.cpp.o	b843dbfbf374c160
+1366	1457	1776756798295129478	web_server	86908b3840212f8
+1	35	1776761451722933350	build.ninja	64d8c17965f2980e
+1	35	1776761451722933350	/home/sevenstars/CLionProjects/web_server/cmake-build-debug/cmake_install.cmake	64d8c17965f2980e
+2	728	1776761451734843789	CMakeFiles/web_server.dir/src/Epoll.cpp.o	3c3e1d195f01c705
+2	1156	1776761451733934154	CMakeFiles/web_server.dir/src/Connection.cpp.o	a9563878765b2bf9
+2	985	1776761462455717586	CMakeFiles/web_server.dir/main.cpp.o	b843dbfbf374c160
+2	1097	1776761462457158302	CMakeFiles/web_server.dir/src/Connection.cpp.o	a9563878765b2bf9
+1097	1184	1776761463550797600	web_server	a4561f8c6ee1384
