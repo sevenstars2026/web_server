@@ -1,5 +1,8 @@
 # ninja log v6
-1	238	1776687492611587168	CMakeFiles/web_server.dir/main.cpp.o	7866e5fc918e4314
-239	278	1776687492850144079	web_server	c24584833fb30e52
-2	626	1776743953396759058	CMakeFiles/web_server.dir/main.cpp.o	7866e5fc918e4314
 626	699	1776743954020775247	web_server	9cc2cc97448e423d
+2	626	1776743953396759058	CMakeFiles/web_server.dir/main.cpp.o	7866e5fc918e4314
+1	42	1776744265818075901	build.ninja	64d8c17965f2980e
+1	42	1776744265818075901	/home/sevenstars/CLionProjects/web_server/cmake-build-debug/cmake_install.cmake	64d8c17965f2980e
+1	541	1776744265829846053	CMakeFiles/web_server.dir/src/Connection.cpp.o	a9563878765b2bf9
+1	599	1776744265828076289	CMakeFiles/web_server.dir/main.cpp.o	b843dbfbf374c160
+599	663	1776744266426378818	web_server	173c7a73fb270b6d
